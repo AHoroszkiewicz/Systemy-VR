@@ -5,6 +5,7 @@ public class TriggerReaction : MonoBehaviour
 {
     [SerializeField] private string targetTag = "Player";
     public UnityEvent onEntered;
+    public string poolID;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -16,9 +17,6 @@ public class TriggerReaction : MonoBehaviour
     }
     protected virtual void HandleTriggerEnter(Collider other)
     {
-        if (other.CompareTag(targetTag))
-        {
             onEntered?.Invoke();
-        }
     }
 }

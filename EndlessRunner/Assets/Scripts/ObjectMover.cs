@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ObjectMover : MonoBehaviour
 {
-    [SerializeField] private List<Transform> transforms = new List<Transform>();
     [SerializeField] private float speed = 2f;
     [SerializeField] private Vector2 zRange;
 
@@ -14,15 +13,12 @@ public class ObjectMover : MonoBehaviour
 
     void Update()
     {
-        foreach (var t in transforms)
+        Vector3 newPos = transform.position;
+        newPos += new Vector3(0, 0, speed * Time.deltaTime);
+        if (newPos.z < zRange.x)
         {
-            Vector3 newPos = t.position;
-            newPos += new Vector3(0, 0, speed * Time.deltaTime);
-            if (newPos.z < zRange.x)
-            {
-                newPos.z = zRange.y;
-            }
-            t.position = newPos;
+            newPos.z = zRange.y;
         }
+        transform.position = newPos;
     }
 }
