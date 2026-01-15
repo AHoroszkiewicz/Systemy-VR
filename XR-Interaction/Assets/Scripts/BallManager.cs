@@ -1,15 +1,21 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-public class ResetBall : MonoBehaviour
+public class BallManager : MonoBehaviour
 {
+    [SerializeField] private bool returnToOriginalPos;
+    [SerializeField] private HoopManager hoopManager;
     private Rigidbody rb;
     private Vector3 originalPos;
-    [SerializeField] private bool returnToOriginalPos;
+    private XRGrabInteractable grab;
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
         originalPos = GetComponent<Transform>().position;
+        grab = GetComponent<XRGrabInteractable>();
+        grab.selectExited.AddListener(OnRelease);
     }
 
     void Update()
@@ -18,6 +24,11 @@ public class ResetBall : MonoBehaviour
         {
             ResetPosition();
         }
+    }
+
+    private void OnRelease(SelectExitEventArgs args)
+    {
+        hoopManager.AddShot();
     }
 
     public void ResetPosition()
